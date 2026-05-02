@@ -1,0 +1,1100 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<title>遠距離專屬包 ✈️ NCW</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=DM+Sans:wght@400;500;600;700&display=swap');
+
+  :root {
+    --navy: #0a0e2a;
+    --blue-deep: #0d1440;
+    --blue-mid: #1a2260;
+    --blue-bright: #2a4caa;
+    --blue-sky: #4a7fd4;
+    --star-gold: #ffd166;
+    --star-white: #e8f0ff;
+    --envelope: #e8d5b7;
+    --envelope-dark: #c4a882;
+    --text-light: #c8d8f8;
+    --text-bright: #eef4ff;
+    --accent-teal: #64d4c0;
+    --shadow-blue: rgba(42,76,170,0.5);
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--navy);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    overflow-x: hidden;
+    position: relative;
+  }
+
+  /* Starfield */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background:
+      radial-gradient(ellipse at 20% 30%, rgba(26,34,96,0.9) 0%, transparent 60%),
+      radial-gradient(ellipse at 80% 70%, rgba(42,76,170,0.4) 0%, transparent 50%),
+      radial-gradient(ellipse at 50% 0%, rgba(100,212,192,0.08) 0%, transparent 40%),
+      linear-gradient(180deg, #04061a 0%, #0a0e2a 40%, #0d1440 100%);
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .stars-bg {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 0;
+    overflow: hidden;
+  }
+  .star {
+    position: absolute;
+    border-radius: 50%;
+    background: white;
+    animation: twinkle ease-in-out infinite;
+  }
+  @keyframes twinkle {
+    0%,100% { opacity: 0.2; transform: scale(1); }
+    50% { opacity: 1; transform: scale(1.3); }
+  }
+  .shooting-star {
+    position: absolute;
+    width: 80px;
+    height: 1.5px;
+    background: linear-gradient(90deg, transparent, white, transparent);
+    animation: shoot linear infinite;
+    opacity: 0;
+  }
+  @keyframes shoot {
+    0% { transform: translateX(-100px) translateY(0) rotate(-30deg); opacity: 0; }
+    10% { opacity: 0.8; }
+    80% { opacity: 0.8; }
+    100% { transform: translateX(120vw) translateY(60px) rotate(-30deg); opacity: 0; }
+  }
+
+  .app-container {
+    position: relative;
+    z-index: 1;
+    width: 100%;
+    max-width: 480px;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 0 16px 80px;
+  }
+
+  /* Header */
+  .header {
+    width: 100%;
+    text-align: center;
+    padding: 30px 0 16px;
+  }
+  .header-icon { font-size: 2.8rem; display: block; margin-bottom: 8px; animation: float 3s ease-in-out infinite; }
+  @keyframes float { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-6px); } }
+  .header h1 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 2rem;
+    font-weight: 600;
+    color: var(--star-white);
+    letter-spacing: 2px;
+    text-shadow: 0 0 20px rgba(100,212,192,0.4);
+  }
+  .header .subtitle {
+    font-size: 0.78rem;
+    color: var(--text-light);
+    margin-top: 6px;
+    font-weight: 500;
+    letter-spacing: 1px;
+    opacity: 0.8;
+  }
+
+  /* Progress */
+  .progress-wrap {
+    width: 100%;
+    background: rgba(255,255,255,0.08);
+    border-radius: 20px;
+    height: 8px;
+    margin: 14px 0 6px;
+    overflow: hidden;
+    border: 1px solid rgba(255,255,255,0.1);
+  }
+  .progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--blue-sky), var(--accent-teal), var(--star-gold));
+    border-radius: 20px;
+    transition: width 0.6s ease;
+    position: relative;
+  }
+  .progress-fill::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
+    animation: shimmer 2.5s infinite;
+  }
+  @keyframes shimmer { 0% { transform: translateX(-100%); } 100% { transform: translateX(100%); } }
+  .progress-text { font-size: 0.75rem; color: var(--text-light); font-weight: 500; text-align: center; opacity: 0.8; }
+
+  /* Save indicator */
+  .save-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    background: rgba(100,212,192,0.15);
+    border: 1px solid rgba(100,212,192,0.3);
+    border-radius: 20px;
+    padding: 4px 12px;
+    font-size: 0.72rem;
+    color: var(--accent-teal);
+    font-weight: 600;
+    margin: 6px 0 0;
+    letter-spacing: 0.5px;
+  }
+  .save-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--accent-teal); animation: blink 2s infinite; }
+  @keyframes blink { 0%,100% { opacity: 1; } 50% { opacity: 0.3; } }
+
+  /* Deck area */
+  .deck-area {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 22px 0;
+    gap: 20px;
+  }
+
+  /* Envelope deck */
+  .envelope-stack {
+    position: relative;
+    width: 260px;
+    height: 168px;
+    cursor: pointer;
+  }
+  .env-card {
+    position: absolute;
+    width: 260px;
+    height: 165px;
+    border-radius: 6px 6px 8px 8px;
+    box-shadow: 0 8px 30px rgba(0,0,0,0.5);
+    transition: transform 0.2s;
+    overflow: hidden;
+  }
+  .env-card .env-body {
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(180deg, #2a4090 0%, #1a2a70 100%);
+    position: relative;
+  }
+  .env-card .env-body::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    border-left: 130px solid transparent;
+    border-right: 130px solid transparent;
+    border-top: 68px solid rgba(255,255,255,0.08);
+  }
+  .env-card .env-body::after {
+    content: '';
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    border-left: 130px solid transparent;
+    border-right: 130px solid transparent;
+    border-bottom: 60px solid rgba(100,212,192,0.08);
+  }
+  .env-card .env-stamp {
+    position: absolute;
+    top: 14px;
+    right: 16px;
+    width: 36px;
+    height: 44px;
+    background: rgba(255,255,255,0.1);
+    border: 1px dashed rgba(255,255,255,0.3);
+    border-radius: 3px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.2rem;
+  }
+  .env-card .env-label {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+    color: #ffffff;
+    font-size: 0.95rem;
+    font-weight: 700;
+    line-height: 1.6;
+    pointer-events: none;
+    text-shadow: 0 2px 10px rgba(0,0,0,0.7);
+    white-space: nowrap;
+    transition: opacity 0.4s ease;
+  }
+  .env-card .env-label.hidden { opacity: 0; pointer-events: none; }
+  .env-card .env-line {
+    position: absolute;
+    bottom: 28px;
+    left: 20px;
+    right: 20px;
+    height: 1px;
+    background: rgba(255,255,255,0.15);
+  }
+
+  .envelope-stack .env-card:nth-child(3) { transform: rotate(-2.5deg) translateY(7px); opacity: 0.55; }
+  .envelope-stack .env-card:nth-child(2) { transform: rotate(-1deg) translateY(3.5px); opacity: 0.75; }
+  .envelope-stack .env-card:nth-child(1) { transform: rotate(0deg); }
+  .envelope-stack:hover .env-card:nth-child(1) { transform: rotate(0deg) translateY(-5px); box-shadow: 0 18px 40px rgba(0,0,0,0.6); }
+
+  .deck-count-badge {
+    position: absolute;
+    top: -10px;
+    right: -10px;
+    background: var(--star-gold);
+    color: var(--navy);
+    font-size: 0.75rem;
+    font-weight: 800;
+    width: 34px;
+    height: 34px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.4);
+    z-index: 2;
+  }
+
+  .draw-btn {
+    background: linear-gradient(135deg, var(--blue-bright), var(--blue-sky));
+    color: white;
+    border: none;
+    border-radius: 50px;
+    padding: 16px 44px;
+    font-size: 1rem;
+    font-weight: 700;
+    font-family: 'DM Sans', sans-serif;
+    cursor: pointer;
+    box-shadow: 0 8px 24px var(--shadow-blue);
+    transition: all 0.2s;
+    letter-spacing: 0.5px;
+    position: relative;
+    overflow: hidden;
+    border: 1px solid rgba(100,212,192,0.3);
+  }
+  .draw-btn::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, rgba(100,212,192,0.15), transparent);
+  }
+  .draw-btn:hover { transform: translateY(-3px); box-shadow: 0 14px 32px var(--shadow-blue); }
+  .draw-btn:active { transform: translateY(0); }
+  .draw-btn:disabled { opacity: 0.4; cursor: not-allowed; transform: none; }
+
+  .reset-btn {
+    background: transparent;
+    color: var(--text-light);
+    border: 1px solid rgba(255,255,255,0.2);
+    border-radius: 50px;
+    padding: 10px 28px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    font-family: 'DM Sans', sans-serif;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .reset-btn:hover { background: rgba(255,255,255,0.08); border-color: rgba(255,255,255,0.35); }
+
+  /* Card flip */
+  .card-display {
+    width: 100%;
+    perspective: 1400px;
+    margin: 6px 0;
+  }
+  .card-inner {
+    width: 100%;
+    min-height: 220px;
+    position: relative;
+    transform-style: preserve-3d;
+    transition: transform 3s cubic-bezier(0.4,0,0.2,1);
+  }
+  .card-inner.flipped { transform: rotateY(180deg); }
+
+  .card-face {
+    position: absolute;
+    width: 100%;
+    min-height: 220px;
+    border-radius: 16px;
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 28px 22px;
+  }
+
+  /* Front = sealed envelope */
+  .card-front {
+    background: linear-gradient(160deg, #1e2a6e 0%, #0f1648 100%);
+    border: 1px solid rgba(100,212,192,0.2);
+    box-shadow: 0 12px 40px rgba(0,0,0,0.5);
+    overflow: hidden;
+  }
+  .card-front::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    border-left: 50vw solid transparent;
+    border-right: 50vw solid transparent;
+    border-top: 90px solid rgba(255,255,255,0.05);
+  }
+  .card-front-content {
+    text-align: center;
+    color: rgba(200,216,248,0.9);
+    font-size: 0.95rem;
+    font-weight: 500;
+    z-index: 1;
+    transition: opacity 0.5s ease;
+  }
+  .card-front-icon { font-size: 3rem; display: block; margin-bottom: 8px; animation: pulse 2.5s ease-in-out infinite; }
+  @keyframes pulse { 0%,100% { transform: scale(1); } 50% { transform: scale(1.08); } }
+
+  /* Back = opened letter */
+  .card-back {
+    transform: rotateY(180deg);
+    box-shadow: 0 12px 40px rgba(0,0,0,0.5);
+    overflow: hidden;
+  }
+  .card-back.type-letter {
+    background: linear-gradient(160deg, #1a2860 0%, #0d1848 100%);
+    border: 1px solid rgba(74,127,212,0.4);
+  }
+  .card-back.type-task {
+    background: linear-gradient(160deg, #1a3048, #0d2038);
+    border: 1px solid rgba(100,212,192,0.5);
+  }
+  /* Starfield decoration on card */
+  .card-back::before {
+    content: '✦';
+    position: absolute;
+    top: 12px;
+    right: 14px;
+    font-size: 1rem;
+    opacity: 0.25;
+    color: var(--star-gold);
+  }
+  .card-back.type-task::before { color: var(--accent-teal); }
+
+  .card-back-content { width: 100%; position: relative; z-index: 1; }
+  .card-type-badge {
+    display: inline-block;
+    padding: 4px 13px;
+    border-radius: 20px;
+    font-size: 0.68rem;
+    font-weight: 700;
+    letter-spacing: 1px;
+    margin-bottom: 12px;
+    text-transform: uppercase;
+  }
+  .badge-letter { background: rgba(74,127,212,0.3); color: #a0c4ff; border: 1px solid rgba(74,127,212,0.5); }
+  .badge-task { background: rgba(100,212,192,0.2); color: var(--accent-teal); border: 1px solid rgba(100,212,192,0.4); }
+
+  .card-number { font-size: 0.72rem; color: rgba(200,216,248,0.5); font-weight: 500; margin-bottom: 6px; }
+  .card-text-zh {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: var(--star-white);
+    line-height: 1.55;
+    margin-bottom: 8px;
+  }
+  .card-text-ms { font-size: 0.85rem; color: var(--text-light); line-height: 1.45; font-style: italic; margin-bottom: 6px; opacity: 0.85; }
+  .card-text-en { font-size: 0.8rem; color: var(--accent-teal); line-height: 1.4; font-weight: 500; opacity: 0.85; }
+  .card-star-deco {
+    text-align: center;
+    margin-top: 14px;
+    letter-spacing: 8px;
+    font-size: 0.75rem;
+    opacity: 0.4;
+    color: var(--star-gold);
+  }
+  .type-task .card-star-deco { color: var(--accent-teal); }
+
+  @keyframes openEnvelope {
+    0% { transform: rotateX(-30deg) translateY(-20px); opacity: 0; }
+    60% { transform: rotateX(5deg) translateY(4px); opacity: 1; }
+    100% { transform: rotateX(0deg) translateY(0); opacity: 1; }
+  }
+  .card-animate { animation: openEnvelope 0.55s cubic-bezier(0.34,1.56,0.64,1); }
+
+  /* Footer */
+  .footer {
+    position: fixed;
+    bottom: 0; left: 0; right: 0;
+    background: rgba(4,6,26,0.9);
+    backdrop-filter: blur(12px);
+    text-align: center;
+    padding: 10px 16px;
+    font-size: 0.68rem;
+    color: rgba(200,216,248,0.6);
+    font-weight: 500;
+    border-top: 1px solid rgba(74,127,212,0.2);
+    z-index: 100;
+  }
+
+  /* Modal */
+  .modal-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(4,6,26,0.85);
+    backdrop-filter: blur(8px);
+    z-index: 200;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 24px;
+    animation: fadeIn 0.3s ease;
+  }
+  @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+  .modal-box {
+    background: linear-gradient(160deg, #1a2462, #0d1440);
+    border: 1px solid rgba(74,127,212,0.35);
+    border-radius: 24px;
+    padding: 30px 24px 26px;
+    width: 100%;
+    max-width: 380px;
+    box-shadow: 0 24px 60px rgba(0,0,0,0.6), 0 0 40px rgba(42,76,170,0.3);
+    animation: slideUp 0.4s cubic-bezier(0.34,1.56,0.64,1);
+    max-height: 82vh;
+    overflow-y: auto;
+  }
+  @keyframes slideUp { from { transform: translateY(40px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+  .modal-title { font-family: 'Cormorant Garamond', serif; font-size: 1.5rem; color: var(--star-white); text-align: center; margin-bottom: 4px; }
+  .modal-subtitle { text-align: center; font-size: 0.82rem; color: var(--text-light); margin-bottom: 22px; opacity: 0.75; }
+  .modal-step { display: flex; gap: 14px; margin-bottom: 15px; align-items: flex-start; }
+  .step-num {
+    min-width: 26px;
+    height: 26px;
+    background: linear-gradient(135deg, var(--blue-bright), var(--blue-sky));
+    color: white;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.75rem;
+    font-weight: 700;
+    flex-shrink: 0;
+    margin-top: 2px;
+  }
+  .step-text { font-size: 0.87rem; color: var(--text-light); line-height: 1.55; font-weight: 500; }
+  .step-text strong { color: var(--accent-teal); }
+  .card-legend { background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); border-radius: 12px; padding: 14px 16px; margin: 14px 0; }
+  .legend-item { display: flex; align-items: center; gap: 10px; margin-bottom: 8px; font-size: 0.83rem; font-weight: 500; color: var(--text-light); }
+  .legend-item:last-child { margin-bottom: 0; }
+  .legend-dot { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; }
+  .dot-blue { background: var(--blue-sky); }
+  .dot-teal { background: var(--accent-teal); }
+  .modal-btn {
+    width: 100%;
+    background: linear-gradient(135deg, var(--blue-bright), var(--blue-sky));
+    color: white;
+    border: none;
+    border-radius: 50px;
+    padding: 15px;
+    font-size: 0.95rem;
+    font-weight: 700;
+    font-family: 'DM Sans', sans-serif;
+    cursor: pointer;
+    margin-top: 10px;
+    box-shadow: 0 8px 20px var(--shadow-blue);
+    letter-spacing: 0.5px;
+  }
+
+  /* Restore toast */
+  .toast {
+    position: fixed;
+    top: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: rgba(100,212,192,0.15);
+    border: 1px solid rgba(100,212,192,0.4);
+    color: var(--accent-teal);
+    padding: 10px 22px;
+    border-radius: 30px;
+    font-size: 0.82rem;
+    font-weight: 600;
+    z-index: 300;
+    backdrop-filter: blur(8px);
+    white-space: nowrap;
+    animation: toastIn 0.4s ease, toastOut 0.4s ease 2.5s forwards;
+    pointer-events: none;
+  }
+  @keyframes toastIn { from { opacity: 0; transform: translateX(-50%) translateY(-10px); } to { opacity: 1; transform: translateX(-50%) translateY(0); } }
+  @keyframes toastOut { from { opacity: 1; } to { opacity: 0; } }
+
+  /* Password Screen */
+  .pw-overlay {
+    position: fixed;
+    inset: 0;
+    background: linear-gradient(160deg, #04061a 0%, #0a0e2a 50%, #0d1440 100%);
+    z-index: 999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 24px;
+    transition: opacity 0.6s ease;
+  }
+  .pw-overlay.unlocking { opacity: 0; pointer-events: none; }
+  .pw-box {
+    background: linear-gradient(160deg, #1a2462, #0d1440);
+    border: 1px solid rgba(74,127,212,0.35);
+    border-radius: 24px;
+    padding: 36px 28px 30px;
+    width: 100%;
+    max-width: 360px;
+    box-shadow: 0 24px 60px rgba(0,0,0,0.6), 0 0 40px rgba(42,76,170,0.3);
+    text-align: center;
+    animation: slideUp 0.5s cubic-bezier(0.34,1.56,0.64,1);
+  }
+  .pw-icon { font-size: 3rem; display: block; margin-bottom: 12px; }
+  .pw-title { font-family: 'Cormorant Garamond', serif; font-size: 1.5rem; color: var(--star-white); margin-bottom: 4px; }
+  .pw-subtitle { font-size: 0.82rem; color: var(--text-light); margin-bottom: 24px; line-height: 1.6; opacity: 0.85; }
+  .pw-input {
+    width: 100%;
+    background: rgba(255,255,255,0.06);
+    border: 1px solid rgba(74,127,212,0.4);
+    border-radius: 50px;
+    padding: 14px 20px;
+    font-size: 1.1rem;
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 700;
+    color: var(--star-white);
+    text-align: center;
+    outline: none;
+    transition: border-color 0.2s;
+    letter-spacing: 3px;
+    margin-bottom: 14px;
+  }
+  .pw-input:focus { border-color: var(--accent-teal); }
+  .pw-input.error { border-color: #ef5350; animation: shake 0.4s ease; }
+  @keyframes shake {
+    0%,100% { transform: translateX(0); }
+    20% { transform: translateX(-8px); }
+    40% { transform: translateX(8px); }
+    60% { transform: translateX(-6px); }
+    80% { transform: translateX(6px); }
+  }
+  .pw-btn {
+    width: 100%;
+    background: linear-gradient(135deg, var(--blue-bright), var(--blue-sky));
+    color: white;
+    border: none;
+    border-radius: 50px;
+    padding: 15px;
+    font-size: 1rem;
+    font-weight: 700;
+    font-family: 'DM Sans', sans-serif;
+    cursor: pointer;
+    box-shadow: 0 8px 20px var(--shadow-blue);
+    letter-spacing: 0.5px;
+    transition: transform 0.2s;
+  }
+  .pw-btn:hover { transform: translateY(-2px); }
+  .pw-error { font-size: 0.82rem; color: #ef9a9a; font-weight: 600; margin-top: 10px; min-height: 20px; }
+  .pw-footer { font-size: 0.68rem; color: rgba(200,216,248,0.4); margin-top: 20px; }
+</style>
+</head>
+<body>
+
+<!-- ══════════════════════════════════════
+     PASSWORD SCREEN
+     To set a buyer's password:
+     1. Open password-generator.html
+     2. Type the password → copy the hash
+     3. Replace the HASH value below
+     ══════════════════════════════════════ -->
+<div class="pw-overlay" id="pwOverlay">
+  <div class="pw-box">
+    <span class="pw-icon">✈️</span>
+    <div class="pw-title">遠距離專屬包</div>
+    <div class="pw-subtitle">請輸入您的專屬密碼<br><em>Sila masukkan kata laluan anda</em><br><em>Enter your personal password</em></div>
+    <input class="pw-input" id="pwInput" type="password" placeholder="● ● ● ● ● ●" maxlength="30" autocomplete="off">
+    <button class="pw-btn" id="pwBtn">🌙 解鎖 / Unlock</button>
+    <div class="pw-error" id="pwError"></div>
+    <div class="pw-footer">© 2026 NCW | 此檔案僅供本人使用</div>
+  </div>
+</div>
+
+<div class="stars-bg" id="starsBg"></div>
+
+<div class="app-container">
+  <div class="header">
+    <span class="header-icon">✈️</span>
+    <h1>遠距離專屬包</h1>
+    <div class="subtitle">Long Distance Pack · Pek Jarak Jauh · 跨越距離的連結</div>
+  </div>
+
+  <div class="progress-wrap">
+    <div class="progress-fill" id="progressFill" style="width:0%"></div>
+  </div>
+  <div class="progress-text" id="progressText">尚未抽卡 · Belum mula · Not started yet</div>
+  <div class="save-badge"><div class="save-dot"></div>進度自動保存 · Auto-saved · Disimpan Otomatis</div>
+
+  <div class="deck-area">
+    <div class="envelope-stack" id="deckStack">
+      <div class="env-card">
+        <div class="env-body">
+          <div class="env-stamp" id="deckStamp">✉️</div>
+          <div class="env-label" id="deckLabel">點擊開信<br>Buka Surat<br>Open Letter</div>
+          <div class="env-line"></div>
+        </div>
+      </div>
+      <div class="env-card"><div class="env-body"></div></div>
+      <div class="env-card"><div class="env-body"></div></div>
+      <div class="deck-count-badge" id="deckCountBadge">100</div>
+    </div>
+
+    <button class="draw-btn" id="drawBtn" onclick="drawCard()">✉️ 拆開下一封信 / Open Next</button>
+    <button class="reset-btn" onclick="resetGame()">🔄 重置旅程 / Reset Journey</button>
+  </div>
+
+  <div class="card-display" id="cardDisplay" style="display:none;">
+    <div class="card-inner" id="cardInner">
+      <div class="card-face card-front">
+        <div class="card-front-content">
+          <span class="card-front-icon">✉️</span>
+          正在拆信中...
+        </div>
+      </div>
+      <div class="card-face card-back" id="cardBack">
+        <div class="card-back-content" id="cardContent"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="footer">© 2026 NCW 版權所有</div>
+
+<!-- Reset Confirm Modal -->
+<div class="modal-overlay" id="resetModal" style="display:none;">
+  <div class="modal-box" style="text-align:center;">
+    <div style="font-size:2.2rem;margin-bottom:10px;">🔄</div>
+    <div class="modal-title" style="font-size:1.2rem;margin-bottom:8px;">確定要重置旅程嗎？</div>
+    <div class="modal-subtitle" style="margin-bottom:20px;">所有進度將被清除！<br><em>Semua kemajuan akan dipadam!</em><br><em>All progress will be cleared!</em></div>
+    <div style="display:flex;gap:12px;">
+      <button onclick="confirmReset(false)" style="flex:1;background:transparent;color:var(--text-light);border:1px solid rgba(255,255,255,0.25);border-radius:50px;padding:13px;font-size:0.95rem;font-weight:600;font-family:'DM Sans',sans-serif;cursor:pointer;">取消 / Cancel</button>
+      <button onclick="confirmReset(true)" style="flex:1;background:linear-gradient(135deg,var(--blue-bright),var(--blue-sky));color:white;border:none;border-radius:50px;padding:13px;font-size:0.95rem;font-weight:700;font-family:'DM Sans',sans-serif;cursor:pointer;box-shadow:0 6px 16px var(--shadow-blue);">確定 / Yes</button>
+    </div>
+  </div>
+</div>
+
+<!-- Tutorial Modal -->
+<div class="modal-overlay" id="tutorialModal">
+  <div class="modal-box">
+    <div class="modal-title">✈️ 跨越距離的信</div>
+    <div class="modal-subtitle">玩法說明 · Cara Bermain · How to Play</div>
+
+    <div class="modal-step">
+      <div class="step-num">1</div>
+      <div class="step-text">點擊「信封牌堆」，像拆開一封來自遠方的信一樣抽取話題！<br><em>Klik dek surat, seperti membuka surat dari jauh!</em></div>
+    </div>
+    <div class="modal-step">
+      <div class="step-num">2</div>
+      <div class="step-text">兩人透過視訊/語音，一起深入探討每一道問題，縮短心的距離。<br><em>Perbincangkan soalan bersama pasangan melalui video call.</em></div>
+    </div>
+    <div class="modal-step">
+      <div class="step-num">3</div>
+      <div class="step-text">你的<strong>遊戲進度已自動保存</strong>，關閉網頁再開也能繼續！<br><em>Kemajuan anda <strong>disimpan otomatis</strong> — tutup dan buka semula tanpa masalah!</em></div>
+    </div>
+
+    <div class="card-legend">
+      <div class="legend-item"><div class="legend-dot dot-blue"></div>90 張「心靈連結卡」— 深度話題 / Deep Topic Cards</div>
+      <div class="legend-item"><div class="legend-dot dot-teal"></div>10 張「異地任務卡」— 立即執行語音/拍照任務！</div>
+    </div>
+
+    <button class="modal-btn" onclick="closeTutorial()">🌙 開始我們的旅程！Let's Begin!</button>
+  </div>
+</div>
+
+<script>
+// ============================================================
+// PASSWORD PROTECTION
+// Replace BUYER_HASH below with the hash from password-generator.html
+// ============================================================
+const BUYER_HASH = 'c94072a3b9b9de9ef231705bceb786b818e32e4034e5f18cb40a9b736437c26e';
+const PW_UNLOCKED_KEY = 'longdist_unlocked_v1';
+
+async function sha256(message) {
+  const msgBuffer = new TextEncoder().encode(message);
+  const hashBuffer = await crypto.subtle.digest('SHA-256', msgBuffer);
+  const hashArray = Array.from(new Uint8Array(hashBuffer));
+  return hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
+}
+
+async function checkPassword() {
+  const input = document.getElementById('pwInput').value.trim();
+  const errorEl = document.getElementById('pwError');
+  const inputEl = document.getElementById('pwInput');
+  if (!input) return;
+
+  const hash = await sha256(input);
+  if (hash === BUYER_HASH) {
+    localStorage.setItem(PW_UNLOCKED_KEY, '1');
+    unlockGame();
+  } else {
+    errorEl.textContent = '密碼錯誤 · Kata laluan salah · Wrong password';
+    inputEl.classList.add('error');
+    setTimeout(() => {
+      inputEl.classList.remove('error');
+      errorEl.textContent = '';
+    }, 1500);
+  }
+}
+
+function unlockGame() {
+  const overlay = document.getElementById('pwOverlay');
+  overlay.classList.add('unlocking');
+  setTimeout(() => overlay.style.display = 'none', 600);
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+  if (localStorage.getItem(PW_UNLOCKED_KEY) === '1') {
+    document.getElementById('pwOverlay').style.display = 'none';
+  }
+  document.getElementById('pwBtn').addEventListener('click', checkPassword);
+  document.getElementById('pwInput').addEventListener('keydown', e => {
+    if (e.key === 'Enter') checkPassword();
+  });
+});
+
+// ============================================================
+// CARD DATA — 100 cards (90 letter/dialogue + 10 task)
+// ============================================================
+const CARDS = [
+  // ---- LETTER CARDS (90) ----
+  {type:'letter',zh:'如果我們終於能見面，你最想做的第一件事是什麼？',ms:'Kalau kita akhirnya berjumpa, apa perkara pertama yang paling ingin kamu lakukan?',en:'When we finally meet again, what is the very first thing you want to do?'},
+  {type:'letter',zh:'你有沒有計算過，我們之間相差幾個時區？那個數字對你來說是什麼感覺？',ms:'Pernahkah kamu kira berapa zon waktu perbezaan antara kita? Apa yang terasa?',en:'Have you ever counted the time zones between us? What does that number feel like to you?'},
+  {type:'letter',zh:'你覺得遠距離讓你在愛情裡學到了什麼最重要的課題？',ms:'Apa pelajaran terpenting tentang cinta yang kamu belajar dari hubungan jarak jauh ini?',en:'What is the most important lesson about love that this long-distance relationship has taught you?'},
+  {type:'letter',zh:'你心目中最理想的「再見面計劃」是什麼？詳細說說！',ms:'Apa rancangan pertemuan semula yang paling ideal dalam bayanganmu? Cerita dengan terperinci!',en:'Describe your most ideal reunion plan in as much detail as you can imagine!'},
+  {type:'letter',zh:'在睡前，你有沒有習慣在心裡對我說什麼？',ms:'Sebelum tidur, adakah kamu ada kebiasaan berkata sesuatu kepada aku dalam hati?',en:'Before you sleep, do you have a habit of silently saying something to me in your heart?'},
+  {type:'letter',zh:'如果你能在我身邊一整天，從早到晚你最想做什麼計劃？',ms:'Kalau kamu boleh bersama aku seharian, apa rancangan dari pagi hingga malam?',en:'If you could spend an entire day by my side from morning to night, what would you plan?'},
+  {type:'letter',zh:'你覺得我們之間哪件事，是其他情侶沒有、但只有我們才有的特別連結？',ms:'Apa pertalian istimewa yang kita miliki yang pasangan lain tidak ada?',en:'What special connection do we have that other couples don\'t? What makes us uniquely us?'},
+  {type:'letter',zh:'你最想寄給我什麼東西？如果不考慮郵費和時間的話？',ms:'Apa yang paling ingin kamu hantarkan kepadaku kalau tiada kekangan kos atau masa?',en:'If shipping costs and time were no issue, what would you most want to send me?'},
+  {type:'letter',zh:'你有沒有因為想我太多而做過什麼「稍微瘋狂」的事？',ms:'Pernahkah kamu melakukan sesuatu yang "agak gila" kerana terlalu merinduiku?',en:'Have you ever done something a little "crazy" because you missed me so much?'},
+  {type:'letter',zh:'你覺得思念一個人最難熬的是哪個時間段？為什麼？',ms:'Bila masa paling sukar menanggung rindu seseorang? Kenapa?',en:'What time of day do you find it hardest to bear missing someone and why?'},
+  {type:'letter',zh:'如果我們能在同一個城市生活，你最希望我們的日常是什麼樣的？',ms:'Kalau kita boleh tinggal di bandar yang sama, macam mana kehidupan harian kita idealnya?',en:'If we could live in the same city, what would you want our everyday life to look like?'},
+  {type:'letter',zh:'你覺得遠距離讓我們的感情變得更深還是更難？你怎麼面對那份難？',ms:'Adakah jarak jauh menjadikan hubungan kita lebih dalam atau lebih sukar? Bagaimana kamu hadapinya?',en:'Has the distance made our love deeper or harder? How do you face the difficult parts?'},
+  {type:'letter',zh:'你有沒有一個「只要想到我就會做的事」？是什麼？',ms:'Adakah ada sesuatu yang selalu kamu lakukan setiap kali teringat aku?',en:'Is there something you always do whenever you think of me? What is it?'},
+  {type:'letter',zh:'如果我們可以設計一個屬於我們的「視訊約會」，你覺得最完美的版本是什麼？',ms:'Kalau boleh reka bentuk "tarikh video call" kita sendiri, apa versi paling sempurnanya?',en:'If we could design the perfect virtual date night for just us two, what would it look like?'},
+  {type:'letter',zh:'你最想帶我去你城市的哪個地方？那個地方對你有什麼意義？',ms:'Tempat di bandarmu yang paling ingin kamu tunjukkan kepada aku? Apa maknanya bagimu?',en:'Which place in your city would you most want to show me and why does it mean so much to you?'},
+  {type:'letter',zh:'你覺得我現在在哪裡？在做什麼？你猜猜看！',ms:'Kamu rasa aku ada di mana sekarang? Sedang buat apa? Cuba teka!',en:'Where do you think I am right now and what do you think I\'m doing? Take a guess!'},
+  {type:'letter',zh:'在遠距離的日子裡，哪一次我說的話讓你感覺最不孤單？',ms:'Dalam hari-hari jarak jauh ini, apa yang pernah aku katakan yang buat kamu rasa paling tidak keseorangan?',en:'During our time apart, what have I said that made you feel the least alone?'},
+  {type:'letter',zh:'你有沒有為了減少思念，養成了什麼新習慣？',ms:'Adakah kamu mengamalkan kebiasaan baru untuk mengurangkan perasaan rindu?',en:'Have you developed any new habits to help manage missing me?'},
+  {type:'letter',zh:'如果我突然敲門出現在你家，你的第一反應會是什麼？',ms:'Kalau aku tiba-tiba ketuk pintu dan muncul di rumahmu, apa reaksi pertamamu?',en:'If I suddenly knocked on your door and appeared at your home, what would be your first reaction?'},
+  {type:'letter',zh:'你覺得我們之間的距離，有沒有讓你對某件事的看法改變了？',ms:'Adakah jarak antara kita mengubah pandanganmu tentang sesuatu?',en:'Has the distance between us changed your perspective on anything in life?'},
+  {type:'letter',zh:'你最喜歡我們通話時哪個習慣性的話題或橋段？',ms:'Apa topik atau babak yang selalu kamu suka dalam panggilan kita?',en:'What is your favorite recurring topic or moment from our calls together?'},
+  {type:'letter',zh:'你覺得我們下次見面後，最想讓對方知道什麼事情？',ms:'Selepas bertemu nanti, apa perkara yang paling ingin kamu maklumkan kepada aku?',en:'After we next meet, what is the one thing you most want to make me understand or feel?'},
+  {type:'letter',zh:'你有沒有想過，如果遠距離沒有了，我們的關係會有什麼變化？',ms:'Pernahkah kamu terfikir bagaimana hubungan kita akan berubah jika tiada lagi jarak?',en:'Have you ever wondered how our relationship might change if the distance were gone?'},
+  {type:'letter',zh:'你怎麼向朋友介紹我？他們知道你有多在意我嗎？',ms:'Bagaimana kamu memperkenalkan aku kepada kawan-kawanmu? Adakah mereka tahu betapa kamu peduli?',en:'How do you introduce me to your friends? Do they know just how much I mean to you?'},
+  {type:'letter',zh:'如果我明天抵達你那裡，你最想給我嘗一道什麼在地美食？',ms:'Kalau aku tiba di tempatmu esok, makanan tempatan apa yang paling ingin kamu biarkan aku cuba?',en:'If I arrived in your city tomorrow, what local dish would you most want me to try first?'},
+  {type:'letter',zh:'你有沒有因為時差而睡不著，只為了等我的一條訊息？',ms:'Pernahkah kamu tidak boleh tidur kerana perbezaan zon waktu demi menunggu mesej aku?',en:'Have you ever stayed awake because of the time difference, just waiting for a message from me?'},
+  {type:'letter',zh:'你覺得我身上最讓你有安全感的一個特質是什麼？',ms:'Apa sifat aku yang paling buat kamu rasa selamat dan terjaga?',en:'What quality of mine makes you feel the most emotionally safe and secure?'},
+  {type:'letter',zh:'你有沒有因為思念我，而偷偷哭過？你哭的時候在想什麼？',ms:'Pernahkah kamu menangis diam-diam kerana rindu aku? Apa yang sedang kamu fikirkan ketika itu?',en:'Have you ever cried quietly because you missed me? What were you thinking about in that moment?'},
+  {type:'letter',zh:'你覺得現在的遠距離，對你來說是考驗還是禮物？',ms:'Bagi kamu, jarak jauh sekarang ini satu ujian atau hadiah?',en:'For you, is the current distance a test or a gift in disguise?'},
+  {type:'letter',zh:'在我們相處過的所有視訊通話中，哪一次讓你印象最深？',ms:'Di antara semua panggilan video kita, yang mana paling berkesan bagimu?',en:'Among all the video calls we have shared, which one left the deepest impression on you?'},
+  {type:'letter',zh:'如果我們能在同一個屋簷下生活，哪個家務你最想讓我負責？',ms:'Kalau kita boleh tinggal bersama, kerja rumah apa yang paling kamu nak aku uruskan?',en:'If we lived together, which household chore would you most want me to be in charge of?'},
+  {type:'letter',zh:'你覺得遠距離戀愛最需要的一種能力是什麼？你做到了嗎？',ms:'Apa kemahiran paling penting dalam percintaan jarak jauh? Adakah kamu telah menguasainya?',en:'What is the most important skill needed for long-distance love? Do you feel you have mastered it?'},
+  {type:'letter',zh:'如果可以提前告訴我你回來的日期，你希望我怎麼迎接你？',ms:'Kalau boleh beritahu aku tarikhmu pulang lebih awal, macam mana kamu mahu aku menyambutmu?',en:'If you could tell me your return date in advance, how would you want me to welcome you?'},
+  {type:'letter',zh:'你有沒有想過我們「終於定居在一起」的樣子？你希望是在哪個城市？',ms:'Pernahkah kamu bayangkan kita akhirnya menetap bersama? Kamu harap di bandar mana?',en:'Have you ever imagined us finally settling down together? Which city would you hope for?'},
+  {type:'letter',zh:'你怎麼緩解特別嚴重的思念？你願意教我嗎？',ms:'Bagaimana kamu meredakan rindu yang sangat teruk? Mahu ajar aku caranya?',en:'How do you ease an especially intense wave of missing me? Would you teach me your method?'},
+  {type:'letter',zh:'你覺得我們的愛情是被距離「試驗」過的，還是被距離「加強」的？',ms:'Adakah cinta kita "diuji" atau "diperkuat" oleh jarak ini?',en:'Do you feel our love has been tested or strengthened by the distance between us?'},
+  {type:'letter',zh:'你最希望我了解你生活城市的哪一面？',ms:'Apa aspek kehidupan di bandarmu yang paling kamu ingin aku faham?',en:'Which aspect of life in your city do you most wish I could understand and experience?'},
+  {type:'letter',zh:'如果我明天出現，你最想聽我當面說一句什麼話？',ms:'Kalau aku muncul esok, apa ayat yang paling ingin kamu dengar aku ucapkan secara berdepan?',en:'If I appeared tomorrow, what is one thing you would most want to hear me say in person?'},
+  {type:'letter',zh:'你覺得遠距離讓你對「珍惜」有了什麼新的理解？',ms:'Apa pemahaman baru tentang "menghargai" yang kamu peroleh dari hubungan jarak jauh ini?',en:'What new understanding of "cherishing" has this long-distance experience given you?'},
+  {type:'letter',zh:'你最喜歡收到我哪種形式的訊息？語音、文字、影片還是照片？',ms:'Jenis mesej dariku yang mana paling kamu suka terima? Suara, teks, video atau gambar?',en:'Which type of message from me do you love receiving most — voice, text, video, or photo?'},
+  {type:'letter',zh:'如果現在可以穿越到我所在的城市一小時，你最想做的第一件事是什麼？',ms:'Kalau boleh teleport ke bandarku selama sejam sekarang, apa yang pertama sekali ingin kamu lakukan?',en:'If you could teleport to my city for just one hour right now, what is the first thing you would do?'},
+  {type:'letter',zh:'你覺得我們距離「消失」的那天有多近？你在做哪些準備？',ms:'Berapa hampirkah hari bila jarak antara kita akhirnya hilang? Apa persediaan yang kamu buat?',en:'How close do you feel the day is when our distance finally disappears? What are you doing to prepare?'},
+  {type:'letter',zh:'你有沒有幻想過我們的第一個共同家是什麼樣子？',ms:'Pernahkah kamu membayangkan bagaimana rupa rumah pertama kita bersama?',en:'Have you ever imagined what our first shared home would look like?'},
+  {type:'letter',zh:'你在我不在的時候，如何讓自己感覺我還在身邊？',ms:'Ketika aku tiada, macam mana kamu buat dirimu rasa seolah-olah aku masih di sisimu?',en:'When I\'m not there, how do you make yourself feel as though I am still beside you?'},
+  {type:'letter',zh:'你有沒有在等我的訊息的時候，自言自語模擬過我的回應？',ms:'Pernahkah kamu bercakap seorang diri, meniru jawapan aku sambil menunggu balasanku?',en:'While waiting for my reply, have you ever talked to yourself pretending to guess what I might say?'},
+  {type:'letter',zh:'你覺得在遠距離戀愛中，溝通最重要的一件事是什麼？',ms:'Apa perkara paling penting dalam komunikasi untuk pasangan jarak jauh?',en:'In long-distance love, what is the single most important thing about communication?'},
+  {type:'letter',zh:'你最想在我們相聚的那天戴什麼、穿什麼？你有特別準備嗎？',ms:'Apa yang paling ingin kamu pakai pada hari kita bertemu semula? Ada persiapan khas?',en:'What do you most want to wear on the day we reunite? Have you made any special preparations?'},
+  {type:'letter',zh:'你覺得我們現在的狀態，像一部電影的哪個情節？',ms:'Menurutmu, keadaan kita sekarang seperti babak mana dalam sebuah filem?',en:'Which scene in a movie do you feel our current situation most resembles?'},
+  {type:'letter',zh:'你有沒有想過，如果我突然轉移到你的城市，你最擔心的是什麼？',ms:'Pernahkah kamu terfikir, kalau aku tiba-tiba pindah ke bandarmu, apa yang paling kamu bimbangkan?',en:'If I suddenly moved to your city, what would you be most worried about?'},
+  {type:'letter',zh:'你覺得在遠距離戀愛中，哪種「小事」比「大計劃」更讓人感動？',ms:'Dalam percintaan jarak jauh, perkara kecil apa yang lebih menyentuh hati daripada rancangan besar?',en:'In long-distance love, which small gestures move you more than grand plans?'},
+  {type:'letter',zh:'你有沒有夢到過我們已經不再遠距離了？夢裡的場景是什麼？',ms:'Pernahkah kamu bermimpi kita sudah tidak lagi berjauhan? Apa pemandangan dalam mimpinya?',en:'Have you ever dreamed that we were no longer long-distance? What was the scene like?'},
+  {type:'letter',zh:'你最想帶我體驗你城市的哪一種日常生活場景？',ms:'Pengalaman kehidupan harian di bandarmu yang mana paling ingin kamu kongsikan denganku?',en:'Which everyday experience in your city do you most want to share with me?'},
+  {type:'letter',zh:'如果我們的距離縮短了，你最希望增加的生活習慣是什麼？',ms:'Kalau jarak kita semakin dekat, tabiat harian apa yang paling ingin kamu tambahkan?',en:'If our distance shortened, which new daily habit would you most want to add to our lives?'},
+  {type:'letter',zh:'你覺得遠距離讓你更了解我了，還是讓你對我有更多未知？',ms:'Adakah jarak jauh ini buat kamu lebih kenal aku, atau timbulkan lebih banyak persoalan tentang aku?',en:'Has the distance made you feel like you know me better, or has it raised more unknowns about me?'},
+  {type:'letter',zh:'你最想和我一起做的「普通到不行的日常小事」是什麼？',ms:'Aktiviti harian paling biasa yang paling ingin kamu lakukan bersama aku?',en:'What is the most ordinary everyday thing you most want to do together with me?'},
+  {type:'letter',zh:'你有沒有想過，什麼時候是你最確定想和我在一起的時刻？',ms:'Pernahkah kamu terfikir bila detik kamu paling yakin mahu bersama aku?',en:'Have you thought about which moment made you most certain you wanted to be with me?'},
+  {type:'letter',zh:'你最喜歡我們哪一種溝通方式？現在用的這種夠嗎？',ms:'Cara komunikasi kita yang mana paling kamu suka? Adakah yang kita guna sekarang sudah mencukupi?',en:'Which method of communication between us do you enjoy most? Is what we use now enough?'},
+  {type:'letter',zh:'你有沒有為了讓自己在等待中成長，做了什麼讓你驕傲的改變？',ms:'Adakah kamu membuat perubahan yang kamu banggakan untuk berkembang dalam tempoh menunggu ini?',en:'Have you made any changes you are proud of in order to grow during this waiting period?'},
+  {type:'letter',zh:'你覺得「愛就是等待」這句話，在我們身上有多少道理？',ms:'"Cinta itu menunggu" — berapa banyak kebenaran frasa ini dalam hubungan kita?',en:'How much truth does the phrase "love is waiting" hold for us in our relationship?'},
+  {type:'letter',zh:'你有沒有想過，我們未來要如何向孩子解釋「遠距離戀愛」的故事？',ms:'Pernahkah kamu terfikir bagaimana mahu menceritakan kisah percintaan jarak jauh kita kepada anak-anak suatu hari nanti?',en:'Have you thought about how you would tell our long-distance love story to our children someday?'},
+  {type:'letter',zh:'如果每天只能聽我說一句話，你最希望是哪句話？',ms:'Kalau setiap hari hanya boleh dengar satu ayat daripadaku, apa yang paling kamu pilih?',en:'If you could only hear one sentence from me every day, which would you choose?'},
+  {type:'letter',zh:'你現在最想讓我知道的一件事是什麼？不管多小都可以說。',ms:'Apa satu perkara yang paling ingin kamu maklumkan kepadaku sekarang? Walau sekecil mana sekalipun.',en:'What is one thing you most want me to know right now, no matter how small it seems?'},
+  {type:'letter',zh:'你有沒有在某個地方看到某樣東西，立刻想到我？是什麼東西？在哪裡？',ms:'Pernahkah kamu melihat sesuatu di suatu tempat dan terus teringat aku? Apa dan di mana?',en:'Have you ever seen something somewhere that immediately reminded you of me? What was it and where?'},
+  {type:'letter',zh:'你覺得現在的遠距離，對我們的愛情是一道牆還是一扇門？',ms:'Menurutmu, adakah jarak ini satu tembok atau sebuah pintu bagi cinta kita?',en:'Do you see our current distance as a wall or a door for our love?'},
+  {type:'letter',zh:'你有沒有特別珍藏著什麼和我有關的東西或回憶？',ms:'Adakah kamu menyimpan sesuatu yang berkaitan denganku sebagai kenangan istimewa?',en:'Are there any memories or keepsakes connected to me that you hold especially dear?'},
+  {type:'letter',zh:'如果可以給現在的自己一句鼓勵的話，關於這段遠距離的感情，你會說什麼？',ms:'Kalau boleh beri satu ayat semangat kepada dirimu sendiri tentang percintaan jarak jauh ini, apa tu?',en:'If you could give yourself one word of encouragement about this long-distance love, what would it be?'},
+  {type:'letter',zh:'你最喜歡的「倒數見面日期」的方式是什麼？',ms:'Cara apa yang paling kamu suka untuk mengira hari pertemuan kita yang semakin dekat?',en:'What is your favorite way to count down to the day we will meet again?'},
+  {type:'letter',zh:'你有沒有開始為我們的未來規劃一些具體的事情？說說你的想法！',ms:'Sudahkah kamu mula merancang sesuatu yang konkrit untuk masa depan kita? Kongsikan!',en:'Have you started making any concrete plans for our future together? Share your thoughts!'},
+  {type:'letter',zh:'你覺得在遠距離戀愛中，「信任」對你來說最難的是哪個部分？',ms:'Dalam percintaan jarak jauh, aspek mana tentang "kepercayaan" yang paling sukar bagimu?',en:'In long-distance love, which aspect of "trust" do you find the most challenging?'},
+  {type:'letter',zh:'你有沒有一個想對我做的事情，只能在真正見面時才能完成？',ms:'Adakah ada sesuatu yang ingin kamu lakukan untukku yang hanya boleh dilaksanakan bila berjumpa?',en:'Is there something you want to do for me that can only be fulfilled when we meet in person?'},
+  {type:'letter',zh:'你覺得我們的關係中，誰更善於表達感情？你滿意嗎？',ms:'Siapa yang lebih pandai meluahkan perasaan dalam hubungan kita? Adakah kamu berpuas hati?',en:'Who do you think is better at expressing feelings in our relationship? Are you satisfied with that?'},
+  {type:'letter',zh:'你有沒有想過，如果我突然停止聯絡你，你會怎麼辦？',ms:'Pernahkah kamu terfikir apa yang akan kamu lakukan kalau aku tiba-tiba berhenti menghubungimu?',en:'Have you ever thought about what you would do if I suddenly stopped reaching out to you?'},
+  {type:'letter',zh:'如果我明天抵達，你想親自帶我看看你最喜歡的日落地點嗎？',ms:'Kalau aku tiba esok, adakah kamu ingin membawa aku ke tempat matahari terbenam favoritmu?',en:'If I arrived tomorrow, would you take me to your favorite spot to watch the sunset?'},
+  {type:'letter',zh:'你覺得遠距離戀愛需要多強的意志力？你覺得自己做到了嗎？',ms:'Betapa besar kekuatan tekad yang diperlukan untuk percintaan jarak jauh? Adakah kamu rasa kamu berjaya?',en:'How much willpower does long-distance love require? Do you feel you have risen to that challenge?'},
+  {type:'letter',zh:'你最想讓未來的我們記住，關於這段遠距離時光的哪一個細節？',ms:'Apa detail tentang tempoh jarak jauh ini yang paling ingin kamu ingat pada masa depan bersama?',en:'What detail from this long-distance chapter do you most want our future selves to remember?'},
+  {type:'letter',zh:'如果你要給我寫一封真正的信，第一句話你會怎麼開頭？',ms:'Kalau kamu mahu tulis surat sebenar untukku, apa ayat pembuka pertamamu?',en:'If you were to write me a real letter, how would you begin your very first sentence?'},
+  {type:'letter',zh:'你覺得「距離」有沒有讓你更清楚地看見自己想要什麼？',ms:'Adakah "jarak" ini membantu kamu melihat dengan lebih jelas apa yang kamu mahu dalam hidup?',en:'Has the distance helped you see more clearly what you want in life?'},
+  {type:'letter',zh:'你有沒有在某一天特別覺得「這段距離值得」？那天發生了什麼？',ms:'Adakah ada hari kamu benar-benar merasakan "jarak ini berbaloi"? Apa yang berlaku pada hari itu?',en:'Was there a day you genuinely felt this distance was worth it? What happened that day?'},
+  {type:'letter',zh:'你覺得等到我們不再遠距離的那天，你會希望我記住什麼？',ms:'Apabila kita akhirnya bukan lagi pasangan jarak jauh, apa yang kamu harap aku ingat?',en:'When the day comes that we are no longer long-distance, what do you hope I will remember most?'},
+  {type:'letter',zh:'你在某個深夜裡有沒有想過「我為什麼選擇了這段感情」？你的答案是什麼？',ms:'Di suatu malam yang larut, pernahkah kamu tertanya "mengapa aku memilih hubungan ini"? Apa jawapanmu?',en:'In the quiet of a late night, have you ever asked yourself why you chose this relationship? What was your answer?'},
+  {type:'letter',zh:'如果現在的你可以給一年後的我們寫一封信，你會寫什麼？',ms:'Kalau kamu boleh tulis surat kepada kita berdua setahun dari sekarang, apa yang kamu tulis?',en:'If you could write a letter to the two of us one year from now, what would it say?'},
+  {type:'letter',zh:'你有沒有在心裡默默許過一個願，希望我們的距離快點結束？',ms:'Adakah kamu pernah diam-diam membuat satu permintaan bahawa jarak kita akan segera berakhir?',en:'Have you ever quietly made a wish that our distance would end soon?'},
+  {type:'letter',zh:'你覺得愛情最美麗的地方，是不是正是這種「不確定中的確定感」？',ms:'Adakah kamu rasa bahawa keindahan cinta terletak pada "kepastian di tengah ketidakpastian" ini?',en:'Do you think the most beautiful part of love is exactly this feeling of certainty within uncertainty?'},
+
+  {type:'letter',zh:'你覺得我們分隔兩地的日子，讓你最想念的日常小事是什麼？',ms:'Perkara harian kecil apa yang paling kamu rindukan semasa kita berjauhan?',en:'What small everyday thing do you miss most about me while we are apart?'},
+  {type:'letter',zh:'如果我們能同步看同一部電影，你最想選哪一部？為什麼？',ms:'Kalau kita boleh menonton filem yang sama secara serentak, kamu pilih filem apa? Kenapa?',en:'If we could watch the same movie simultaneously from afar, which would you pick and why?'},
+  {type:'letter',zh:'你有沒有對著我的照片說過話？說了什麼？',ms:'Pernahkah kamu bercakap dengan gambar aku? Apa yang kamu katakan?',en:'Have you ever talked to a photo of me? What did you say?'},
+  {type:'letter',zh:'你覺得遠距離讓你更珍惜哪些平時容易忽略的事？',ms:'Apa perkara yang biasanya diabaikan tetapi lebih kamu hargai kerana jarak ini?',en:'What things that are easy to overlook have you come to cherish more because of the distance?'},
+  {type:'letter',zh:'如果可以和我共享一個日落，你最希望是在哪裡看？',ms:'Kalau boleh menonton matahari terbenam bersama aku, kamu paling ingin di mana?',en:'If we could share a sunset together, where would you most want to watch it?'},
+  {type:'letter',zh:'你有沒有在某個瞬間，覺得雖然我不在身邊但感覺我就在旁邊？是什麼情況？',ms:'Pernahkah ada saat kamu rasa aku seolah-olah di sisimu walaupun kita berjauhan? Bila tu?',en:'Has there been a moment when you felt I was right beside you even though we were far apart? When?'},
+  {type:'letter',zh:'你覺得等到我們終於結束遠距離的那一刻，你最想說的第一句話是什麼？',ms:'Apabila kita akhirnya mengakhiri jarak ini, apa ayat pertama yang paling ingin kamu ucapkan?',en:'When we finally end the long distance, what is the very first thing you want to say to me?'},
+
+  // ---- TASK CARDS (10) ----
+  {type:'task',zh:'📸【拍照任務】現在拍下你窗外的景色，傳給我，讓我看見你眼中的世界！',ms:'📸【Misi Foto】Ambil gambar pemandangan luar tingkapmu sekarang dan hantarkan — biarkan aku lihat dunia melalui matamu!',en:'📸【Photo Mission】Take a photo of the view outside your window right now and send it to me — let me see the world through your eyes!'},
+  {type:'task',zh:'🎤【語音任務】錄一段 30 秒的語音，說說你現在的心情和最近讓你開心的一件小事！',ms:'🎤【Misi Suara】Rakam mesej suara 30 saat, ceritakan mood sekarang dan satu perkara kecil yang buat kamu gembira akhir-akhir ini!',en:'🎤【Voice Mission】Record a 30-second voice message sharing your current mood and one small thing that made you happy recently!'},
+  {type:'task',zh:'📸【拍照任務】拍下你現在手邊最近的一樣東西，並用一句話說說它的故事！',ms:'📸【Misi Foto】Ambil gambar objek yang paling dekat denganmu sekarang dan ceritakan dalam satu ayat!',en:'📸【Photo Mission】Take a photo of the nearest object to you right now and tell its story in one sentence!'},
+  {type:'task',zh:'🎤【語音任務】現在發一段語音給我，讀出你最喜歡的一首歌的其中一段歌詞，讓我猜歌名！',ms:'🎤【Misi Suara】Hantar mesej suara dendangkan sepenggal lagu kegemaran kamu dan biarkan aku teka judulnya!',en:'🎤【Voice Mission】Send me a voice message humming or reciting part of your favorite song — let me guess the title!'},
+  {type:'task',zh:'📸【拍照任務】拍一張你今天穿的衣服，告訴我你為什麼選這套？',ms:'📸【Misi Foto】Ambil gambar pakaian yang kamu pakai hari ini dan ceritakan mengapa kamu memilihnya!',en:'📸【Photo Mission】Take a photo of what you are wearing today and tell me why you chose that outfit!'},
+  {type:'task',zh:'🎤【語音任務】錄一段語音說出三件你最感激我的事，越具體越好！',ms:'🎤【Misi Suara】Rakam mesej suara dan nyatakan tiga perkara yang paling kamu syukuri tentang aku — semakin spesifik semakin baik!',en:'🎤【Voice Mission】Record a voice message naming three things you are most grateful to me for — be as specific as possible!'},
+  {type:'task',zh:'📸【拍照任務】拍下你今天吃的一餐或一杯飲料，和我分享你的味道！',ms:'📸【Misi Foto】Ambil gambar makanan atau minuman yang kamu makan/minum hari ini dan kongsikan rasanya denganku!',en:'📸【Photo Mission】Take a photo of a meal or drink you had today and share the flavor experience with me!'},
+  {type:'task',zh:'🎤【語音任務】現在錄一段語音，說說你今天最期待發生的一件事是什麼！',ms:'🎤【Misi Suara】Rakam mesej suara dan ceritakan satu perkara yang paling kamu nantikan berlaku hari ini!',en:'🎤【Voice Mission】Record a voice message and share the one thing you are most looking forward to today!'},
+  {type:'task',zh:'📸【拍照任務】找一樣讓你想到我的東西，拍下來發給我，並說說為什麼！',ms:'📸【Misi Foto】Cari satu objek yang mengingatkanmu tentang aku, ambil gambarnya dan ceritakan kenapa!',en:'📸【Photo Mission】Find one object that reminds you of me, photograph it, and tell me why it made you think of me!'},
+  {type:'task',zh:'🎤【語音任務】用語音說出一個你一直想告訴我但沒說出口的話，現在就說！',ms:'🎤【Misi Suara】Dengan mesej suara, ucapkan sesuatu yang selama ini ingin kamu beritahu aku tapi belum pernah terucap — sekarang masa yang tepat!',en:'🎤【Voice Mission】Say out loud in a voice message something you have always wanted to tell me but never got around to saying — now is the moment!'},
+];
+
+// ============================================================
+// LOCALSTORAGE SAVE
+// ============================================================
+const SAVE_KEY = 'longdist_progress_v2';
+
+function saveProgress(drawnIds) {
+  try { localStorage.setItem(SAVE_KEY, JSON.stringify(drawnIds)); } catch(e) {}
+}
+
+function loadProgress() {
+  try {
+    const raw = localStorage.getItem(SAVE_KEY);
+    return raw ? JSON.parse(raw) : [];
+  } catch(e) { return []; }
+}
+
+function showToast(msg) {
+  const existing = document.querySelector('.toast');
+  if (existing) existing.remove();
+  const t = document.createElement('div');
+  t.className = 'toast';
+  t.textContent = msg;
+  document.body.appendChild(t);
+  setTimeout(() => t.remove(), 3000);
+}
+
+// ============================================================
+// GAME LOGIC
+// ============================================================
+let deck = [];
+let drawnCardIds = [];
+let isFlipping = false;
+
+function initDeck(savedIds) {
+  // Only accept valid ids within current CARDS range
+  const validIds = savedIds.filter(id => id >= 0 && id < CARDS.length);
+  const usedSet = new Set(validIds);
+  deck = CARDS
+    .map((c, i) => ({...c, id: i}))
+    .filter(c => !usedSet.has(c.id));
+  shuffleDeck();
+  drawnCardIds = [...validIds];
+}
+
+function shuffleDeck() {
+  for (let i = deck.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [deck[i], deck[j]] = [deck[j], deck[i]];
+  }
+}
+
+function updateProgress() {
+  const drawn = drawnCardIds.length;
+  const total = CARDS.length;
+  const pct = (drawn / total) * 100;
+  document.getElementById('progressFill').style.width = pct + '%';
+  document.getElementById('deckCountBadge').textContent = deck.length;
+  if (drawn === 0) {
+    document.getElementById('progressText').textContent = '尚未抽卡 · Belum mula · Not started yet';
+  } else {
+    document.getElementById('progressText').textContent = `已開啟 ${drawn} / ${total} 封 · Surat ${drawn}/${total} · Letter ${drawn}/${total}`;
+  }
+  if (deck.length === 0) {
+    document.getElementById('drawBtn').disabled = true;
+    document.getElementById('deckStack').style.opacity = '0.4';
+  }
+}
+
+function drawCard() {
+  if (isFlipping || deck.length === 0) return;
+  isFlipping = true;
+
+  const card = deck.pop();
+  drawnCardIds.push(card.id);
+  saveProgress(drawnCardIds);
+
+  // Hide deck label permanently after first draw
+  const lbl = document.getElementById('deckLabel');
+  if (lbl) lbl.classList.add('hidden');
+
+  const cardDisplay = document.getElementById('cardDisplay');
+  const cardInner = document.getElementById('cardInner');
+  const cardBack = document.getElementById('cardBack');
+  const cardContent = document.getElementById('cardContent');
+
+  cardInner.style.transition = 'none';
+  cardInner.classList.remove('flipped');
+  cardBack.className = 'card-face card-back';
+  cardDisplay.style.display = 'block';
+  // Restore front face text for next card
+  const frontContent = document.querySelector('.card-front-content');
+  if (frontContent) frontContent.style.opacity = '1';
+  void cardInner.offsetWidth;
+
+  const typeLabel = card.type === 'task' ? '異地任務卡 · Kad Misi · Remote Mission Card' : '心靈連結卡 · Kad Jiwa · Soul Connection Card';
+  const badgeClass = card.type === 'task' ? 'badge-task' : 'badge-letter';
+  const backClass = card.type === 'task' ? 'type-task' : 'type-letter';
+  const starDeco = card.type === 'task' ? '✦ ∞ ✦' : '✦ · ✦ · ✦';
+
+  cardContent.innerHTML = `
+    <div class="card-type-badge ${badgeClass}">${typeLabel}</div>
+    <div class="card-number">No. ${drawnCardIds.length} / ${CARDS.length}</div>
+    <div class="card-text-zh">${card.zh}</div>
+    <div class="card-text-ms">${card.ms}</div>
+    <div class="card-text-en">${card.en}</div>
+    <div class="card-star-deco">${starDeco}</div>
+  `;
+  cardBack.classList.add(backClass);
+
+  cardDisplay.classList.add('card-animate');
+  setTimeout(() => cardDisplay.classList.remove('card-animate'), 600);
+
+  setTimeout(() => {
+    cardInner.style.transition = '';
+    cardInner.classList.add('flipped');
+    setTimeout(() => {
+      isFlipping = false;
+      // Hide front face text after flip completes to prevent mirror bleed-through
+      const frontContent = document.querySelector('.card-front-content');
+      if (frontContent) frontContent.style.opacity = '0';
+    }, 3000);
+  }, 200);
+
+  // Hide front text mid-flip at 1s
+  setTimeout(() => {
+    const frontContent = document.querySelector('.card-front-content');
+    if (frontContent) frontContent.style.opacity = '0';
+  }, 1200);
+
+  updateProgress();
+}
+
+function resetGame() {
+  document.getElementById('resetModal').style.display = 'flex';
+}
+
+function confirmReset(yes) {
+  document.getElementById('resetModal').style.display = 'none';
+  if (!yes) return;
+  localStorage.removeItem(SAVE_KEY);
+  deck = CARDS.map((c, i) => ({...c, id: i}));
+  shuffleDeck();
+  drawnCardIds = [];
+  isFlipping = false;
+  document.getElementById('cardDisplay').style.display = 'none';
+  document.getElementById('cardInner').classList.remove('flipped');
+  document.getElementById('drawBtn').disabled = false;
+  document.getElementById('deckStack').style.opacity = '1';
+  const lbl = document.getElementById('deckLabel');
+  if (lbl) lbl.classList.remove('hidden');
+  updateProgress();
+  showToast('🌙 旅程已重置 Journey Reset');
+}
+
+// Starfield
+function createStars() {
+  const container = document.getElementById('starsBg');
+  for (let i = 0; i < 120; i++) {
+    const s = document.createElement('div');
+    s.className = 'star';
+    const size = Math.random() * 2.5 + 0.5;
+    s.style.cssText = `
+      width:${size}px; height:${size}px;
+      left:${Math.random()*100}%;
+      top:${Math.random()*100}%;
+      animation-duration:${2+Math.random()*4}s;
+      animation-delay:${Math.random()*4}s;
+    `;
+    container.appendChild(s);
+  }
+  for (let i = 0; i < 3; i++) {
+    const ss = document.createElement('div');
+    ss.className = 'shooting-star';
+    ss.style.cssText = `
+      top:${5+Math.random()*30}%;
+      left:0;
+      animation-duration:${6+Math.random()*8}s;
+      animation-delay:${Math.random()*10}s;
+    `;
+    container.appendChild(ss);
+  }
+}
+
+// Tutorial
+function closeTutorial() {
+  document.getElementById('tutorialModal').style.display = 'none';
+  localStorage.setItem('longdist_tutorial_seen', '1');
+}
+
+// Init
+document.addEventListener('DOMContentLoaded', () => {
+  createStars();
+  const saved = loadProgress();
+  initDeck(saved);
+  updateProgress();
+  if (saved.length > 0) {
+    showToast(`✈️ 已恢復進度：${saved.length} 封 · Progress restored: ${saved.length} letters`);
+    const lbl = document.getElementById('deckLabel');
+    if (lbl) lbl.classList.add('hidden');
+  }
+  if (!localStorage.getItem('longdist_tutorial_seen')) {
+    document.getElementById('tutorialModal').style.display = 'flex';
+  } else {
+    document.getElementById('tutorialModal').style.display = 'none';
+  }
+});
+</script>
+</body>
+</html>
